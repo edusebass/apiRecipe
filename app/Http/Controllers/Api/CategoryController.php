@@ -18,4 +18,22 @@ class CategoryController extends Controller
     {
         return $category->load('recipes');
     }
+
+    public function store(Request $request)
+    {
+        $category = Category::create($request->all());
+        return $category;
+    }
+
+    public function update(Request $request, Category $category)
+    {
+        $category->update($request->all());
+        return $category;
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete();
+        return $category;
+    }
 }
