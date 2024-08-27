@@ -9,7 +9,7 @@ use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Gate;
 class RecipeController extends Controller
 {
     //
@@ -39,6 +39,7 @@ class RecipeController extends Controller
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
         //
+        Gate::authorize('update', $recipe);
         $recipe->update($request->all());
 
         if($tags = json_decode($request->tags)) {
@@ -48,7 +49,8 @@ class RecipeController extends Controller
     }
     public function destroy(Recipe $recipe)
     {
-        //
+        Gate::authorize('delete', $recipe);
+
         $recipe->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
